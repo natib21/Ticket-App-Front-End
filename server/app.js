@@ -1,9 +1,13 @@
 const express = require('express');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+dotenv.config({ path: './config.env' });
 
 const app = express()
+
 app.use(express.json());
 
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
     return res.status(200).json({ 
         success: true,
         message: "You Got It"
@@ -11,9 +15,29 @@ app.get('/', (req, res) => {
 })
 
 
+app.post('/api',(req,res)=>{
+    return res.status(201).json({
+        success:true,
+        message:"Create Ticket"
+    })
+})
 
 
-const port = 3000;
+const DB = process.env.DATABASE.replace(
+    '<PASSWORD>',
+    process.env.DATABASE_PASSWORD
+  );
+  
+  mongoose.connect(DB)
+  .then(() => {
+      console.log('MongoDB connected successfully!');
+  })
+  .catch((err) => {
+      console.error('MongoDB connection error:', err);
+      process.exit(1); // Exit the process if MongoDB connection fails
+  });
+  
+const port =process.env.PORT || 3000;
 
 app.listen(port , ()=>{
   console.log(`The Server Run On Port ${port}`)
