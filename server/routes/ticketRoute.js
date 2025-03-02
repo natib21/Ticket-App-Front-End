@@ -25,3 +25,5 @@ router
         authController.restrictTo('admin'),
         ticketController.deleteTicket
     )
+
+    module.exports = router;  

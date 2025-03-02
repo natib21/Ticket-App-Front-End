@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 const validator = require('validator')
 const bcrypt = require('bcryptjs');
+
+
+
 const userSchema = mongoose.Schema({
     userName: {
         type:String,
@@ -35,6 +38,13 @@ const userSchema = mongoose.Schema({
          enum: ['admin', 'agent', 'customer'],
          default: 'customer' 
     },
+    ticketAssign:[
+        {
+       type:mongoose.Schema.Types.ObjectId,
+       ref:'Ticket'
+    }
+
+],
     createdAt: {
         type: Date,
         default: Date.now,
@@ -42,6 +52,14 @@ const userSchema = mongoose.Schema({
 
 })
 
+userSchema.pre(/^find/, function (next) {
+    this.populate({
+        path: 'ticketAssign',
+        select: '-__v'  
+    })
+
+    next();
+});
 userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) return next();
   
@@ -57,6 +75,8 @@ userSchema.methods.correctPassword = async function (
   ) {
     return await bcrypt.compare(candidatePassword, userPassword);
   };
+
+
  
 const User = mongoose.model('user', userSchema);
 

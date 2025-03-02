@@ -11,8 +11,8 @@ app.use(express.json());
 
 
 
-app.use('api/user',userRouter)
-app.use('api/ticket',ticketRouter)
+app.use('/api/user',userRouter)
+app.use('/api/ticket',ticketRouter)
 
 const DB = process.env.DATABASE.replace(
     '<PASSWORD>',
