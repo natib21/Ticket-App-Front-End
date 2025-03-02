@@ -1,27 +1,18 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const userRouter = require('./routes/userRoute')
+const ticketRouter = require('./routes/ticketRoute')
 dotenv.config({ path: './config.env' });
 
 const app = express()
 
 app.use(express.json());
 
-app.get('/api', (req, res) => {
-    return res.status(200).json({ 
-        success: true,
-        message: "You Got It"
-    });
-})
 
 
-app.post('/api',(req,res)=>{
-    return res.status(201).json({
-        success:true,
-        message:"Create Ticket"
-    })
-})
-
+app.use('api/user',userRouter)
+app.use('api/ticket',ticketRouter)
 
 const DB = process.env.DATABASE.replace(
     '<PASSWORD>',
