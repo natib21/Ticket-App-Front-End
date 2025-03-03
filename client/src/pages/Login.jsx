@@ -1,13 +1,35 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import { useForm } from "react-hook-form";
+import { Link ,useNavigate} from "react-router";
+import useAuth from "../hook/useAuth";
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Add login logic here
-  };
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const navigate = useNavigate()
+  const {loginAuth} = useAuth()
+  const onSubmit = async(data) => {
+    try {
+        const response = await fetch("http://127.0.0.1:8000/api/user/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data), 
+        });
+    
+        const result = await response.json();
+    
+        if (response.ok) {
+          console.log("Login Successful:", result);
+          navigate('/')
+         loginAuth(result.data, result.token)
+        } else {
+          console.error("Login Failed:", result.message);
+        }
+      } catch (error) {
+        console.error("Error during login:", error);
+      }
+    };
+ 
 
   return (
     <section className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -19,14 +41,13 @@ const Login = () => {
           <h1 className="text-xl font-semibold text-gray-700">Welcome Back</h1>
         </header>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-600">Email</label>
             <input
               type="email"
               id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              {...register("email", { required: "Email is required" })}
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-400"
               placeholder="Enter your email"
             />
@@ -37,8 +58,8 @@ const Login = () => {
             <input
               type="password"
               id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+          
+              {...register("password", { required: "password is required" })}
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-400"
               placeholder="Enter your password"
             />

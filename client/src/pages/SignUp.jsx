@@ -5,7 +5,7 @@ import useAuth from "../hook/useAuth";
 const SignUp = () => {
   const { register, handleSubmit,watch, formState: { errors } } = useForm();
   const [success, setSuccess] = useState(false);
-  const {loginAuth} = useAuth()
+
   const navigate = useNavigate()
   const onSubmit = async (data) => {
     console.log(data)
@@ -24,7 +24,7 @@ const SignUp = () => {
           setSuccess(true);
           console.log("Login Successful:", result);
           navigate('/login')
-         loginAuth(result.data,result.token)
+        
         } else {
           console.error("Login Failed:", result.message);
         }
