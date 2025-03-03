@@ -18,8 +18,6 @@ const TicketForm = () => {
       setErrorMessage(error.message);
     }
   }
- 
-
   return (
     <div className="max-w-md mx-auto bg-white p-6 rounded-md shadow-lg">
       <h2 className="text-2xl font-bold mb-4">Create Ticket</h2>
