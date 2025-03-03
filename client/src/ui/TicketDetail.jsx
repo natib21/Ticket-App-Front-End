@@ -13,7 +13,7 @@ const TicketDetail = () => {
   
     return (<>
      {ticket.map((el,index)=> (
-        <li key={index}className="border border-gray-300 p-4 rounded-lg shadow-md bg-white hover:bg-gray-50 transition cursor-pointer">
+        <li key={index}className="border border-gray-300 p-4 rounded-lg shadow-md bg-white hover:bg-gray-50 transition cursor-pointer m-5">
         <h3 className="font-bold capitalize text-lg text-gray-800 hover:underline">
           {el.title}
         </h3>

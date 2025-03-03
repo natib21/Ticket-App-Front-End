@@ -43,13 +43,16 @@ export async function createTicket(ticketData, token) {
         body: JSON.stringify(ticketData),
       });
   
-      if (!response.ok) throw new Error("Failed to create ticket");
+      if (!response.ok){ 
+        const errorData = await response.json();
+        console.error("Error creating ticket:", errorData);
+        throw new Error(errorData.message );}
   
       const data = await response.json();
       return data;
     } catch (error) {
       console.error("Error creating ticket:", error);
-      return null;
+    throw error;
     }
   }
   
