@@ -1,29 +1,39 @@
-import { useState } from "react";
-import { Link } from "react-router";
+import { useState,useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { Link ,useNavigate} from "react-router";
+import useAuth from "../hook/useAuth";
 const SignUp = () => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordConfirm, setPasswordConfirm] = useState('');
-  const [error, setError] = useState('');
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // Simple validation for matching passwords
-    if (password !== passwordConfirm) {
-      setError("Passwords do not match");
-      return;
-    }
-
-    // Clear any previous errors
-    setError('');
-
-    // Handle sign-up logic (e.g., API call) here
-    console.log("User signed up:", { username, email, password });
-
-    // Optionally, redirect to login page or dashboard after successful sign-up
-  };
+  const { register, handleSubmit,watch, formState: { errors } } = useForm();
+  const [success, setSuccess] = useState(false);
+  const {loginAuth} = useAuth()
+  const navigate = useNavigate()
+  const onSubmit = async (data) => {
+    console.log(data)
+    try {
+        const response = await fetch("http://127.0.0.1:8000/api/user/signUp", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data), 
+        });
+    
+        const result = await response.json();
+    
+        if (response.ok) {
+          setSuccess(true);
+          console.log("Login Successful:", result);
+          navigate('/login')
+         loginAuth(result.data,result.token)
+        } else {
+          console.error("Login Failed:", result.message);
+        }
+      } catch (error) {
+        console.error("Error during login:", error);
+      }
+    };
+    
+  
 
   return (
     <section className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -35,19 +45,19 @@ const SignUp = () => {
           <h1 className="text-xl font-semibold text-gray-700">Create an Account</h1>
         </header>
 
-        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+        {success && <p className="text-green-500 text-center mb-4">Sign up successful! Please login.</p>}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
-            <label htmlFor="username" className="block text-sm font-medium text-gray-600">Username</label>
+            <label htmlFor="userName" className="block text-sm font-medium text-gray-600">Username</label>
             <input
               type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              id="userName"
+              {...register("userName", { required: "Username is required" })}
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-400"
               placeholder="Enter your username"
             />
+            {errors.username && <p className="text-red-500 text-sm">{errors.username.message}</p>}
           </div>
 
           <div>
@@ -55,11 +65,11 @@ const SignUp = () => {
             <input
               type="email"
               id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              {...register("email", { required: "Email is required" })}
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-400"
               placeholder="Enter your email"
             />
+            {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
           </div>
 
           <div>
@@ -67,11 +77,11 @@ const SignUp = () => {
             <input
               type="password"
               id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              {...register("password", { required: "Password is required" })}
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-400"
               placeholder="Enter your password"
             />
+            {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
           </div>
 
           <div>
@@ -79,11 +89,14 @@ const SignUp = () => {
             <input
               type="password"
               id="passwordConfirm"
-              value={passwordConfirm}
-              onChange={(e) => setPasswordConfirm(e.target.value)}
+              {...register("passwordConfirm", {
+                required: "Confirming password is required",
+                validate: value => value === watch('password') || "Passwords do not match"
+              })}
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-400"
               placeholder="Confirm your password"
             />
+            {errors.passwordConfirm && <p className="text-red-500 text-sm">{errors.passwordConfirm.message}</p>}
           </div>
 
           <div className="flex justify-center">
