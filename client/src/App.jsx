@@ -1,12 +1,14 @@
+import { BrowserRouter, Routes, Route } from "react-router";
+import AppLayout from "./ui/AppLayout";
 
 function App() {
-
-
   return (
-    <div class="bg-sky-100">
-      Welcome to ticket System
-    </div>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<AppLayout />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
