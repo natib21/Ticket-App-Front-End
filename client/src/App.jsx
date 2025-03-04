@@ -14,7 +14,7 @@ function App() {
         <Route path="/" element={<ProtectedRoute />}>
         <Route path="/" element={<AppLayout />}>
           <Route path="/" element={<Main />}>
-            <Route index  element={<Ticket />} />
+            <Route index element={<Ticket />} />
             <Route path="tickets" element={<Ticket />} />
             <Route path="users" element={<Users />} />
             <Route path="settings" element={<Settings />} />
