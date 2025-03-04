@@ -58,9 +58,10 @@ export async function createTicket(ticketData, token) {
   
 
 export async function updateTicket(ticketId, updates, token) {
+  console.log(ticketId,updates,token)
     try {
       const response = await fetch(`${API_URL}/${ticketId}`, {
-        method: "PUT",
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`, 
@@ -68,13 +69,15 @@ export async function updateTicket(ticketId, updates, token) {
         body: JSON.stringify(updates),
       });
   
-      if (!response.ok) throw new Error("Failed to update ticket");
+      if (!response.ok){ 
+        const errorData = await response.json();
+        throw new Error(errorData.message);}
   
       const data = await response.json();
       return data;
     } catch (error) {
       console.error("Error updating ticket:", error);
-      return null;
+      throw error;
     }
   }
   

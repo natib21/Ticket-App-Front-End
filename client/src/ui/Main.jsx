@@ -3,10 +3,14 @@ import { Link, Outlet } from "react-router";
 import { useState } from "react";
 import Modal from "./Modal";
 import TicketForm from "./TicketForm";
+
 const Menu = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
+    const user = JSON.parse(sessionStorage.getItem('AUTH_KEY_USER_DATA'))
+
+
   return (
     <div className="flex">
       <div className="flex-1 bg-gray-100 p-5">
@@ -41,11 +45,11 @@ const Menu = () => {
               </Link>
             </li>
           </ul>
-          <div className="mt-5">
+         {user.role === "admin" || "agent" ? "": <div className="mt-5">
             <button onClick={openModal} className="bg-blue-950 cursor-pointer text-white px-4 py-2 rounded-md hover:bg-blue-600">
               Add Ticket
             </button>
-          </div>
+          </div>}
         </div>
       </div>
 
