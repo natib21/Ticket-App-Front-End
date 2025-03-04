@@ -17,7 +17,7 @@ This is a **MERN stack** ticketing system built for job purposes. It includes **
 - **Tailwind CSS** for styling
 
 ## 🔥 Features
-- **User Authentication** (Login/Register with JWT)
+- **User Authentication** (Login/Sign up with JWT)
 - **Role-based Access Control** (Admin, agent, customer)
 - **CRUD Operations** for Tickets
 - **Status Updates** (Open, In Progress, Closed)
@@ -27,13 +27,13 @@ This is a **MERN stack** ticketing system built for job purposes. It includes **
 ## 📂 Project Structure
 ```
 mern-ticket-system/
-│-- backend/  (Express.js API)
+│-- server/  (Express.js API)
 │   ├── models/   (Mongoose Schemas)
 │   ├── routes/   (API Endpoints)
 │   ├── controllers/ (Business Logic)
 │   ├── middleware/  (JWT & Auth Middleware)
 │   ├── config/  (Database Connection)
-│-- frontend/ (React.js Application)
+│-- client/ (React.js Application)
 │   ├── components/  (Reusable UI Components)
 │   ├── pages/  (Dashboard, Login, Tickets, etc.)
 │   ├── hooks/  (Custom Hooks)
@@ -45,7 +45,7 @@ mern-ticket-system/
 
 ### 1️⃣ Backend Setup
 ```sh
-cd backend
+cd server
 npm install
 npm start
 ```
@@ -59,7 +59,7 @@ PORT=8000
 
 ### 2️⃣ Frontend Setup
 ```sh
-cd frontend
+cd client
 npm install
 npm start
 ```
@@ -72,9 +72,9 @@ const API_URL = 'http://127.0.0.1:8000/api';
 ### Auth Routes
 | Method | Endpoint       | Description |
 |--------|---------------|-------------|
-| POST   | /auth/register | Register User |
+| POST   | /auth/sign up | Register User |
 | POST   | /auth/login    | Login User |
-| POST   | /auth/login    | Login User |
+
 
 ### Ticket Routes
 | Method | Endpoint        | Description |
