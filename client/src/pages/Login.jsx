@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Link ,useNavigate} from "react-router";
+import { useAuth as auth} from "../context/AuthContext";
 import useAuth from "../hook/useAuth";
 const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate()
   const {loginAuth} = useAuth()
+  const {login,isAuthenticated ,user} = auth()
   const onSubmit = async(data) => {
     try {
         const response = await fetch("http://127.0.0.1:8000/api/user/login", {
@@ -20,8 +22,10 @@ const Login = () => {
     
         if (response.ok) {
           console.log("Login Successful:", result);
-          navigate('/')
-         loginAuth(result.data, result.token)
+          loginAuth(result.user,result.token)
+          login(result.user,result.token);
+          navigate("/");
+        
         } else {
           console.error("Login Failed:", result.message);
         }
@@ -29,8 +33,9 @@ const Login = () => {
         console.error("Error during login:", error);
       }
     };
- 
-
+  /*  useEffect(()=>{
+    if(isAuthenticated) navigate('/',{replace:true})
+   },[isAuthenticated,navigate]) */
   return (
     <section className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-sm w-full">

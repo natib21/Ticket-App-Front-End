@@ -2,41 +2,47 @@ import { createContext, useContext, useReducer } from "react";
 
 const AuthContext = createContext();
 
-const intialState ={
-    user:null,
+const initialState = {
+    user: null,
     isAuthenticated: false
-}
+};
 
-function reducer(state,action){
-    switch(action.type) {
+function reducer(state, action) {
+    switch (action.type) {
         case 'login':
-             return{ user: action.payload, isAuthenticated: true}
+            return { ...state, user: action.payload, isAuthenticated: true };
         case 'logout':
-            return {user:null, isAuthenticated:false}    
+            return { ...state, user: null, isAuthenticated: false };
         default:
-             throw new Error("Unknown action")     
+            throw new Error("Unknown action type");
     }
 }
+console.log(initialState)
+function AuthProvider({ children }) {
+    const [{ user, isAuthenticated }, dispatch] = useReducer(reducer, initialState);
 
-
-function AuthProvider({children}){
-   
-    const [{user,isAuthenticated},dispatch] = useReducer(reducer,intialState)
-
-    function login(user){
-
-        dispatch({type:'login',payload:user})
+    function login(user,token) {
+        dispatch({ type: 'login', payload: user });
+        sessionStorage.setItem("AUTH_KEY_USER_DATA", JSON.stringify(user));
+        sessionStorage.setItem("AUTH_KEY_TOKEN", token);
     }
-    function logout(){
-        dispatch({type:"logout"})
+
+    function logout() {
+        sessionStorage.clear()
+        dispatch({ type: "logout" });
     }
-    return <AuthContext.Provider value={{user,isAuthenticated,login,logout}}>{children}</AuthContext.Provider>
+
+    return (
+        <AuthContext.Provider value={{ user, isAuthenticated, login, logout }}>
+            {children}
+        </AuthContext.Provider>
+    );
 }
 
-function useAuth(){
-    const context = useContext(AuthContext)
-    if(context === undefined) throw new Error("AuthContext was used outside AuthProvider")
-  return context
-    }
+function useAuth() {
+    const context = useContext(AuthContext);
+    if (!context) throw new Error("useAuth must be used within an AuthProvider");
+    return context;
+}
 
-export {AuthProvider , useAuth}
+export { AuthProvider, useAuth };

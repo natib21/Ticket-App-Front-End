@@ -7,8 +7,10 @@ import Settings from "./pages/Setting";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp"
 import ProtectedRoute from "./ui/ProtectedRoute";
+import { AuthProvider } from "./context/AuthContext";
 function App() {
   return (
+    <AuthProvider>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<ProtectedRoute />}>
@@ -25,6 +27,7 @@ function App() {
         <Route path="signup" element={<SignUp />} />
       </Routes>
     </BrowserRouter>
+    </AuthProvider>
   );
 }
 
