@@ -15,6 +15,7 @@ This is a **MERN stack** ticketing system built for job purposes. It includes **
 - **React Hook Form** for form handling
 - **React Router** for navigation
 - **Tailwind CSS** for styling
+- **Context Api with useReducer Hook** for state Management
 
 ## 🔥 Features
 - **User Authentication** (Login/Sign up with JWT)
