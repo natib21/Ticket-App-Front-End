@@ -9,7 +9,7 @@ const Menu = () => {
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
     const user = JSON.parse(sessionStorage.getItem('AUTH_KEY_USER_DATA'))
-
+   console.log(user)
 
   return (
     <div className="flex">
@@ -45,11 +45,14 @@ const Menu = () => {
               </Link>
             </li>
           </ul>
-         {user.role === "admin" || "agent" ? "": <div className="mt-5">
-            <button onClick={openModal} className="bg-blue-950 cursor-pointer text-white px-4 py-2 rounded-md hover:bg-blue-600">
-              Add Ticket
-            </button>
-          </div>}
+          {(user.role === "admin" || user.role === "agent") ? "" : (
+  <div className="mt-5">
+    <button onClick={openModal} className="bg-blue-950 cursor-pointer text-white px-4 py-2 rounded-md hover:bg-blue-600">
+      Add Ticket
+    </button>
+  </div>
+)}
+
         </div>
       </div>
 

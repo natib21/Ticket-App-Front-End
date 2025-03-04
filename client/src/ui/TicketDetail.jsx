@@ -5,6 +5,7 @@ const TicketDetail = () => {
     const [selectedTicket, setSelectedTicket] = useState(""); 
     const [isModalOpen, setIsModalOpen] = useState(false);  
     const [newStatus, setNewStatus] = useState('');
+    const user = JSON.parse(sessionStorage.getItem("AUTH_KEY_USER_DATA"))
     const token = sessionStorage.getItem("AUTH_KEY_TOKEN")
     useEffect(() => {
         async function fetchTickets() {
@@ -44,7 +45,7 @@ const TicketDetail = () => {
           {el.title}
         </h3>
         <p className="text-gray-500 mt-2">{el.description}</p>
-        <div className="mt-4 flex gap-3">
+       {user.role === "admin" ? ( <div className="mt-4 flex gap-3">
           <button
          onClick={(e) => handleUpdateClick(el)}
         className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition"
@@ -57,7 +58,7 @@ const TicketDetail = () => {
            >
             Delete
           </button>
-        </div>
+        </div>) : ""}
         <div>
   <p
     className={`

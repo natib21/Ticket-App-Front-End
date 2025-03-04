@@ -31,8 +31,8 @@ export async function getTicket(ticketId) {
   }
 }
 
-export async function createTicket(ticketData, token) {
-    console.log(ticketData ,token)
+export async function createTicket(ticketData, token,id) {
+    console.log(ticketData ,token,id)
     try {
       const response = await fetch(`${API_URL}`, {
         method: "POST",
@@ -40,7 +40,7 @@ export async function createTicket(ticketData, token) {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`,  
         },
-        body: JSON.stringify(ticketData),
+        body: JSON.stringify({ ...ticketData, userId: id })
       });
   
       if (!response.ok){ 

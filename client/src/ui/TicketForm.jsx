@@ -8,9 +8,10 @@ const TicketForm = () => {
   const {getToken} = useAuth()
   const token = getToken()
   const [errorMessage, setErrorMessage] = useState("")
+  const user = JSON.parse(sessionStorage.getItem('AUTH_KEY_USER_DATA'))
   const onSubmit = async(data) => {
     try {
-      const result = await createTicket(data, token);
+      const result = await createTicket(data, token,user._id);
       if (result) {
         console.log("Ticket created successfully:", result);
       }
