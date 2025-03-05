@@ -98,6 +98,23 @@ const SignUp = () => {
             />
             {errors.passwordConfirm && <p className="text-red-500 text-sm">{errors.passwordConfirm.message}</p>}
           </div>
+          <div className="mb-4">
+          <label htmlFor="role" className="block text-sm font-medium text-gray-700">
+            Role
+          </label>
+          <select
+            id="role"
+            {...register("role", { required: "Role is required" })}
+            className="w-full p-2 border border-gray-300 rounded-md"
+          >
+            <option value="admin">Admin</option>
+            <option value="agent">Agent</option>
+            <option value="customer" defaultValue>
+              Customer
+            </option>
+          </select>
+          {errors.role && <span className="text-red-500 text-sm">{errors.role.message}</span>}
+        </div>
 
           <div className="flex justify-center">
             <button
