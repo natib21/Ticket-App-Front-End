@@ -35,8 +35,8 @@ const Login = () => {
     };
  
   return (
-    <section className="flex justify-center items-center min-h-screen bg-gradient-to-br from-amber-400 to-pink-500">
-    <div className="bg-white/10 backdrop-blur-lg p-8 rounded-2xl shadow-xl max-w-md w-full border border-white/20">
+    <section className=" flex justify-center items-center min-h-screen bg-gradient-to-br from-amber-400 to-pink-500">
+    <div className="m-2 bg-white/10 backdrop-blur-lg p-8 rounded-2xl shadow-xl max-w-md w-full border border-white/20">
       <header className="text-center mb-6">
         <h2 className="text-4xl font-bold text-white drop-shadow-lg">
           🎟️ Ticket App
