@@ -1,15 +1,37 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 
-const UserForm = () => {
+const UserForm = ({onClose}) => {
 
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, watch,formState: { errors } } = useForm();
 
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log("User Data:", data);
-
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/user/signUp", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data), 
+      });
+  
+      const result = await response.json();
+  
+      if (response.ok) {
+        console.log("user Create Successful:", result);
+        onClose()
+      
+      } else {
+        console.error("Create Failed:", result.message);
+      }
+    } catch (error) {
+      console.error("Error during create:", error);
+    }
   };
+  
+  
 
   return (
     <div className="max-w-md mx-auto bg-white p-6 rounded-md shadow-lg">

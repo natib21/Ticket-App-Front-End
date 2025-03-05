@@ -28,7 +28,7 @@ const Users = () => {
        </div>
        {isModalOpen ? 
        <Modal isOpen={isModalOpen} onClose={closeModal}> 
-         <UserForm />
+         <UserForm onClose={closeModal}/>
         </Modal>
         :  
         <UserDetail />}
