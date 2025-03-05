@@ -61,7 +61,7 @@ const Menu = () => {
       <div className="flex-2 p-5">
 
       {isModalOpen ? <Modal isOpen={isModalOpen} onClose={closeModal} > 
-          <TicketForm />
+          <TicketForm onClose={closeModal}/>
         </Modal>
         :  <Outlet />}
       </div>

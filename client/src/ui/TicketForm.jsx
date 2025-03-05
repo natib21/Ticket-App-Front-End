@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import useAuth from "../hook/useAuth";
 import { useEffect } from "react";
 import { createTicket } from "../services/ApiTicket";
-const TicketForm = () => {
+const TicketForm = ({onClose}) => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const {getToken} = useAuth()
   const token = getToken()
@@ -14,6 +14,7 @@ const TicketForm = () => {
       const result = await createTicket(data, token,user._id);
       if (result) {
         console.log("Ticket created successfully:", result);
+        onClose()
       }
     } catch (error) {
       setErrorMessage(error.message);
