@@ -14,7 +14,7 @@ const Menu = () => {
   return (
     <div className="flex">
       <div className="flex-1 bg-gray-100 p-5">
-        <h2 className="text-2xl font-bold">{`${user.role === "admin" ? 'Admin':"Customer"} Dashboard`}</h2>
+        <h2 className="text-2xl font-bold">{`${user.role === "admin" ?  'Admin': user.role === "agent" ? 'Agent': 'Customer'} Dashboard`}</h2>
         <div className="mt-5">
           <ul>
             <li>
@@ -26,16 +26,17 @@ const Menu = () => {
                 <span>Tickets</span>
               </Link>
             </li>
-            <li>
+         { user.role === 'admin' ?   <li>
               <Link
                 to="/users"
                 className="flex items-center gap-2 p-2 hover:underline cursor-pointer"
               >
                 <IoIosArrowForward />
-                <span>Users</span>
+                <span>Manage Users</span>
               </Link>
-            </li>
-            <li>
+            </li> : ""
+            }
+        { user.role === 'admin' ?    <li>
               <Link
                 to="/settings"
                 className="flex items-center gap-2 p-2 hover:underline cursor-pointer"
@@ -43,12 +44,12 @@ const Menu = () => {
                 <IoIosArrowForward />
                 <span>Settings</span>
               </Link>
-            </li>
+            </li> : ""}
           </ul>
           {(user.role === "admin" || user.role === "agent") ? "" : (
   <div className="mt-5">
     <button onClick={openModal} className="bg-blue-950 cursor-pointer text-white px-4 py-2 rounded-md hover:bg-blue-600">
-      Add Ticket
+      Create Ticket
     </button>
   </div>
 )}
