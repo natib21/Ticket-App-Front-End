@@ -34,6 +34,7 @@ const TicketDetail = () => {
           );
           setIsModalOpen(false); 
           console.log("updating ticket status correctly:", result);
+          window.location.reload(); 
         }catch(err){
           console.error("Error Appeaar",err)
         }
