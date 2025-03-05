@@ -14,9 +14,7 @@ const Ticket = () => {
         fetchTickets();
       }, []);
  
-      const handleClick = ()=>{
-        console.log("What is your Name ?")
-      }
+      
 
   return (
 
