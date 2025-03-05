@@ -17,6 +17,20 @@ export async function getAllTickets() {
   }
 }
 
+export async function getAllTicketsWithCreators(id) {
+  console.log(id)
+  try {
+    const response = await fetch(`${API_URL}/createdby/${id}`);
+    if (!response.ok) throw new Error("Failed to fetch tickets");
+
+    const data = await response.json();
+    return data.data; 
+  } catch (error) {
+    console.error("Error fetching tickets:", error);
+    return [];
+  }
+}
+
 
 export async function getTicket(ticketId) {
   try {

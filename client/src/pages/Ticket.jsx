@@ -1,19 +1,30 @@
 import { useState, useEffect } from "react";
 import TicketDetail from "../ui/TicketDetail";
-import { getAllTickets } from "../services/ApiTicket";
+import { getAllTickets,getAllTicketsWithCreators } from "../services/ApiTicket";
 
 const Ticket = () => {
   const [tickets, setTickets] = useState([]);
   const user = JSON.parse(sessionStorage.getItem("AUTH_KEY_USER_DATA"))
-
-        useEffect(() => {
-        async function fetchTickets() {
-          const tickets = await getAllTickets();
-          setTickets(tickets)
-        }
-        fetchTickets();
-      }, []);
- 
+  console.log(user)
+  if(user.role === "admin" || user.role === "agent"){
+    useEffect(() => {
+      async function fetchTickets() {
+        const tickets = await getAllTickets();
+        setTickets(tickets)
+      }
+      fetchTickets();
+    }, []);
+  
+  }else {
+    useEffect(() => {
+      async function fetchTickets() {
+        const tickets = await getAllTicketsWithCreators(user._id);
+        setTickets(tickets)
+      }
+      fetchTickets();
+    }, [user._id]);
+  }
+      
       
 
   return (
