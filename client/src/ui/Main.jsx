@@ -14,7 +14,7 @@ const Menu = () => {
   return (
     <div className="flex">
       <div className="flex-1 bg-gray-100 p-5">
-        <h2 className="text-2xl font-bold">Dashboard</h2>
+        <h2 className="text-2xl font-bold">{`${user.role === "admin" ? 'Admin':"Customer"} Dashboard`}</h2>
         <div className="mt-5">
           <ul>
             <li>
