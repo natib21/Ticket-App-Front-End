@@ -4,6 +4,8 @@ const authController = require('../controller/authController')
 const router = express.Router();
 
 
+router.route("/createdby/:id").get(ticketController.getTicketsByUser);
+
 router
    .route('/')
    .get(ticketController.getAllTicket)
@@ -13,7 +15,7 @@ router
          ticketController.createNewTicket
         )
 router
-    .route('/id')
+    .route('/:id')
     .get(ticketController.getTicket)
     .patch(
         authController.protect,

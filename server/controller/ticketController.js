@@ -1,7 +1,7 @@
 const Ticket = require('../model/ticketModel')
-
+const AppError = require('../utils/AppError')
 exports.getAllTicket = async(req, res) => {
-     const ticket = await Ticket.find()
+     const ticket = await Ticket.find().populate('createdBy')
       
      res.status(200).json({
         status: 'success',
@@ -10,8 +10,13 @@ exports.getAllTicket = async(req, res) => {
       });
   };
 exports.createNewTicket = async(req, res) => {
-     const newTicket = await Ticket.create(req.body)
-
+  console.log(req.body)
+  const { title, description } = req.body;
+     const newTicket = await Ticket.create({
+      title,
+      description,
+      createdBy:req.user.id
+     })
      res.status(201).json({
         status: 'success',
         menu: newTicket,
@@ -29,11 +34,12 @@ exports.getTicket = async(req, res) => {
       ticket
     });
   };
-exports.updateTicket = async(req, res) => {
+exports.updateTicket = async(req, res,next) => {
+  console.log(req.params.id,req.body)
     const ticket = await Ticket.findByIdAndUpdate(req.params.id, req.body, {
-        runValidators: true,
         new: true,
       });
+   
       if (!ticket) {
         return next(new AppError('No Ticket item Found with that ID', 404));
       }
@@ -52,4 +58,32 @@ exports.deleteTicket = async(req, res) => {
       ticket: null,
     });
   };
+  
+  exports.getTicketsByUser = async (req, res) => {
+    try {
+      const userId = req.params.id;
+      const tickets = await Ticket.find({createdBy: userId})
+        .populate("createdBy", "name email");
+
+      if (tickets.length === 0) {
+        return res.status(404).json({
+          status: "fail",
+          message: "No tickets created by this user.",
+        });
+      }
+  
+     
+      res.status(200).json({
+        status: "success",
+        data: tickets,
+      });
+    } catch (error) {
+      res.status(500).json({
+        status: "error",
+        message: error.message,
+      });
+    }
+  };
+  
+
   

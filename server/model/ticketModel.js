@@ -32,16 +32,16 @@ const ticketSchema = mongoose.Schema({
 
 
 ticketSchema.pre(/^find/, function (next) {
+ 
      this.populate({
          path: 'assignedTo',
          select: '-__v'  
      }).populate({
           path: 'createdBy',  
-          select: '-__v'
       });;
  
      next();
  });
-const Ticket = mongoose.model('ticket',ticketSchema);
+const Ticket = mongoose.model('Ticket',ticketSchema);
 
 module.exports = Ticket;

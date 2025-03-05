@@ -35,14 +35,15 @@ exports.signUp = async(req,res,next)=>{
    
     
     if(!user || !(await user.correctPassword(password,user.password))){
-       return next (AppError("Incorrect Email or Password",401))
+       return next (new AppError("Incorrect Email or Password",401))
     }
 
     const token = signToken(user._id)
 
     res.status(200).json({
         status:'success',
-        token
+        token,
+        user
     })
   }
 
