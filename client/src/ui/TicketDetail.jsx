@@ -1,5 +1,7 @@
 import { getAllTickets, getTicket, updateTicket, deleteTicket,getAllTicketsWithCreators } from "../services/ApiTicket";
 import { useEffect, useState } from "react";
+import Loading from "./Loading";
+
 const TicketDetail = () => {
     const [ticket,setTicket] = useState([])
     const [selectedTicket, setSelectedTicket] = useState(""); 
@@ -7,25 +9,21 @@ const TicketDetail = () => {
     const [newStatus, setNewStatus] = useState('');
     const user = JSON.parse(sessionStorage.getItem("AUTH_KEY_USER_DATA"))
     const token = sessionStorage.getItem("AUTH_KEY_TOKEN")
-
-  if(user.role === "admin" || user.role === "agent"){
+    const [isLoading,setIsLoading]=useState(false)
     useEffect(() => {
       async function fetchTickets() {
-        const tickets = await getAllTickets();
-        setTicket(tickets)
+        setIsLoading(true);
+        if (user.role === "admin" || user.role === "agent") {
+          const tickets = await getAllTickets();
+          setTicket(tickets);
+        } else {
+          const tickets = await getAllTicketsWithCreators(user._id);
+          setTicket(tickets);
+        }
+        setIsLoading(false);
       }
       fetchTickets();
-    }, []);
-  
-  }else {
-    useEffect(() => {
-      async function fetchTickets() {
-        const tickets = await getAllTicketsWithCreators(user._id);
-        setTicket(tickets)
-      }
-      fetchTickets();
-    }, [user._id]);
-  }
+    }, [user._id, user.role]);
       
   
 
@@ -52,7 +50,25 @@ const TicketDetail = () => {
           console.error("Error Appeaar",err)
         }
       };
+
+      const handleDeleteClick = async (ticketId) => {
+        try {
+          const result = await deleteTicket(ticketId, token);
+          setTicket((prevTickets) =>
+            prevTickets.filter((ticket) => ticket._id !== ticketId)
+          );
+          console.log("Ticket deleted successfully:", result);
+        } catch (err) {
+          console.error("Error occurred during deletion:", err);
+        }
+      };
+
     return (<>
+    {
+      isLoading ? <Loading /> : (
+        <div>
+
+        
      {ticket.map((el,index)=> (
         <li key={index}className="border border-gray-300 p-4 rounded-lg shadow-md bg-white hover:bg-gray-50 transition cursor-pointer m-5">
         <h3 className="font-bold capitalize text-lg text-gray-800 hover:underline">
@@ -133,6 +149,9 @@ const TicketDetail = () => {
           </div>
         </div>
       )}
+      </div>
+   ) }
+
      </>
     );
   };
