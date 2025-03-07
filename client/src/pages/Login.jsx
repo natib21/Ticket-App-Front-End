@@ -18,7 +18,7 @@ const Login = () => {
   const onSubmit = async(data) => {
     setIsLoading(true)
     try {
-        const response = await fetch(API_URL, {
+        const response = await fetch("https://ticketing-system-express-vhi3.onrender.com/api/user/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
