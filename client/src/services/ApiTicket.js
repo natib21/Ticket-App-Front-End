@@ -1,12 +1,8 @@
-const API_URL = 
-  window.location.hostname === "localhost" 
-  ? "http://127.0.0.1:8000/api/ticket"  
-  : "https://ticketing-system-express-vhi3.onrender.com/api/ticket";  
-
+const API_URL =  import.meta.env.VITE_API_URL;
 
 export async function getAllTickets() {
   try {
-    const response = await fetch(API_URL);
+    const response = await fetch(`${API_URL}/ticket`);
     if (!response.ok) throw new Error("Failed to fetch tickets");
 
     const data = await response.json();
@@ -20,7 +16,7 @@ export async function getAllTickets() {
 export async function getAllTicketsWithCreators(id) {
   console.log(id)
   try {
-    const response = await fetch(`${API_URL}/createdby/${id}`);
+    const response = await fetch(`${API_URL}/ticket/createdby/${id}`);
     if (!response.ok) throw new Error("Failed to fetch tickets");
 
     const data = await response.json();
@@ -34,7 +30,7 @@ export async function getAllTicketsWithCreators(id) {
 
 export async function getTicket(ticketId) {
   try {
-    const response = await fetch(`${API_URL}/${ticketId}`);
+    const response = await fetch(`${API_URL}/ticket/${ticketId}`);
     if (!response.ok) throw new Error("Failed to fetch ticket");
 
     const data = await response.json();
@@ -48,7 +44,7 @@ export async function getTicket(ticketId) {
 export async function createTicket(ticketData, token,id) {
     console.log(ticketData ,token,id)
     try {
-      const response = await fetch(`${API_URL}`, {
+      const response = await fetch(`${API_URL}/ticket`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -74,7 +70,7 @@ export async function createTicket(ticketData, token,id) {
 export async function updateTicket(ticketId, updates, token) {
   console.log(ticketId,updates,token)
     try {
-      const response = await fetch(`${API_URL}/${ticketId}`, {
+      const response = await fetch(`${API_URL}/ticket/${ticketId}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -98,7 +94,7 @@ export async function updateTicket(ticketId, updates, token) {
 
   export async function deleteTicket(ticketId, token) {
     try {
-      const response = await fetch(`${API_URL}/${ticketId}`, {
+      const response = await fetch(`${API_URL}/ticket/${ticketId}`, {
         method: "DELETE",
         headers: {
           "Authorization": `Bearer ${token}`,  // Include the token here
