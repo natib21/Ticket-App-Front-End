@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-
+import { getAllUser } from "../services/ApiUser";
 const UserDetail = () => {
   const [users, setUsers] = useState([]);
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/user"); 
+      const response = await getAllUser(); 
       const data = await response.json();
       setUsers(data.data); 
     } catch (error) {

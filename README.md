@@ -90,13 +90,14 @@ const API_URL = 'http://127.0.0.1:8000/api';
 
 ### Ticket Routes
 
-| Method | Endpoint     | Description       |
-| ------ | ------------ | ----------------- |
-| GET    | /tickets     | Get All Tickets   |
-| POST   | /tickets     | Create a Ticket   |
-| GET    | /tickets/:id | Get Single Ticket |
-| PUT    | /tickets/:id | Update Ticket     |
-| DELETE | /tickets/:id | Delete Ticket     |
+| Method | Endpoint               | Description        |
+| ------ | ---------------------- | ------------------ |
+| GET    | /tickets               | Get All Tickets    |
+| POST   | /tickets               | Create a Ticket    |
+| GET    | /tickets/:id           | Get Single Ticket  |
+| PUT    | /tickets/:id           | Update Ticket      |
+| DELETE | /tickets/:id           | Delete Ticket      |
+| GET    | /tickets/createdby/:id | Get Ticket by User |
 
 ### User Routes
 
