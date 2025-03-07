@@ -1,7 +1,9 @@
 const API_URL = 
-  window.location.hostname === "localhost"
-  ? "http://127.0.0.1:8000/api/user/login"  // Local development
-  : "https://ticketing-system-express-vhi3.onrender.com/api/user/login";  
+  import.meta.env.MODE === "development"
+    ? "http://127.0.0.1:8000/api/user/login"  // Local
+    : "https://ticketing-system-express-vhi3.onrender.com/api/user/login";  // Deployed Backend
+
+
 import { useState,useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Link ,useNavigate} from "react-router";
