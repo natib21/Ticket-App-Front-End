@@ -1,4 +1,10 @@
-const API_URL = "http://127.0.0.1:8000/api/user";
+const API_URL = 
+  window.location.hostname === "localhost" 
+  ? "http://127.0.0.1:8000/api/user"  
+  : "https://ticketing-system-express-vhi3.onrender.com/api/user";  
+
+
+
 
 
 export async function getAllUser() {

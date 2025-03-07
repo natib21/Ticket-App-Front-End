@@ -1,3 +1,7 @@
+const API_URL = 
+  window.location.hostname === "localhost"
+  ? "http://127.0.0.1:8000/api/user/login"  // Local development
+  : "https://ticketing-system-express-vhi3.onrender.com/api/user/login";  
 import { useState,useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Link ,useNavigate} from "react-router";
@@ -12,7 +16,7 @@ const Login = () => {
   const onSubmit = async(data) => {
     setIsLoading(true)
     try {
-        const response = await fetch("http://127.0.0.1:8000/api/user/login", {
+        const response = await fetch(API_URL, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
