@@ -1,7 +1,3 @@
-const API_URL = 
-  import.meta.env.MODE === "development"
-    ? "http://127.0.0.1:8000/api/user/login"  // Local
-    : "https://ticketing-system-express-vhi3.onrender.com/api/user/login";  // Deployed Backend
 
 
 import { useState,useEffect } from "react";
@@ -15,10 +11,11 @@ const Login = () => {
   const {loginAuth} = useAuth()
   const {login,isAuthenticated ,user} = auth()
   const [isLoading,setIsLoading] = useState(false)
+  const API_URL =  import.meta.env.VITE_API_URL;
   const onSubmit = async(data) => {
     setIsLoading(true)
     try {
-        const response = await fetch("https://ticketing-system-express-vhi3.onrender.com/api/user/login", {
+        const response = await fetch(`${API_URL}/user/login`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

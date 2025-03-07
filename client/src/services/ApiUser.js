@@ -1,15 +1,10 @@
-const API_URL = 
-  window.location.hostname === "localhost" 
-  ? "http://127.0.0.1:8000/api/user"  
-  : "https://ticketing-system-express-vhi3.onrender.com/api/user";  
-
-
+const API_URL =  import.meta.env.VITE_API_URL;
 
 
 
 export async function getAllUser() {
   try {
-    const response = await fetch(API_URL);
+    const response = await fetch(`${API_URL}/user`);
     if (!response.ok) throw new Error("Failed to fetch tickets");
 
     const data = await response.json();
@@ -22,7 +17,7 @@ export async function getAllUser() {
 
 export async function getUser(ticketId) {
   try {
-    const response = await fetch(`${API_URL}/${ticketId}`);
+    const response = await fetch(`${API_URL}/user/${ticketId}`);
     if (!response.ok) throw new Error("Failed to fetch ticket");
 
     const data = await response.json();
@@ -37,7 +32,7 @@ export async function getUser(ticketId) {
 export async function createUser(userData, token) {
     console.log(ticketData ,token)
     try {
-      const response = await fetch(`${API_URL}`, {
+      const response = await fetch(`${API_URL}/user`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -63,7 +58,7 @@ export async function createUser(userData, token) {
 
 export async function updateUser(userId, updates, token) {
     try {
-      const response = await fetch(`${API_URL}/${userId}`, {
+      const response = await fetch(`${API_URL}/user/${userId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -86,7 +81,7 @@ export async function updateUser(userId, updates, token) {
 
   export async function deleteUser(userId, token) {
     try {
-      const response = await fetch(`${API_URL}/${userId}`, {
+      const response = await fetch(`${API_URL}/user/${userId}`, {
         method: "DELETE",
         headers: {
           "Authorization": `Bearer ${token}`,  
