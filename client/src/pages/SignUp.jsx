@@ -1,7 +1,4 @@
-const API_URL = 
-  window.location.hostname === "localhost"
-  ? "http://127.0.0.1:8000/api/user/signUp"  // Local development
-  : "https://ticketing-system-express-vhi3.onrender.com/api/user/signUp";  
+
 import { useState,useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Link ,useNavigate} from "react-router";
@@ -11,11 +8,12 @@ const SignUp = () => {
   const [success, setSuccess] = useState(false);
   const [isLoading,setIsLoading] = useState(false)
   const navigate = useNavigate()
+  const API_URL =  import.meta.env.VITE_API_URL;
   const onSubmit = async (data) => {
     console.log(data)
     setIsLoading(true)
     try {
-        const response = await fetch(API_URL, {
+        const response = await fetch(`${API_URL}/user/signUp`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
